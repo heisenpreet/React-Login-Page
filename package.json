@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "babel": {
-    "plugins": ["babel-plugin-styled-components"]
+    "plugins": [
+      "babel-plugin-styled-components"
+    ]
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
@@ -19,7 +21,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "git:pull": "git pull",
+    "git:add": "git add .",
+    "git:commit": "git commit -m \"v2\" ",
+    "git:push": "git push",
+    "build:js": "npm-run-all git:pull git:add git:commit git:push"
   },
   "eslintConfig": {
     "extends": [
@@ -44,6 +51,7 @@
     "babel-plugin-styled-components": "^2.0.7",
     "postcss-cli": "^9.1.0",
     "tailwindcss": "^3.1.0",
-    "twin.macro": "^2.8.2"
+    "twin.macro": "^2.8.2",
+    "npm-run-all": "^4.1.5"
   }
 }
