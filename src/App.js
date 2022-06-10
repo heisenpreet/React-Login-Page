@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import StyledMain from "./UIComponents/StyledMain";
+import Navbar from "./Components/navbar";
+import Form from "./Components/Form";
+import Header from "./Components/Header";
+import { useState } from "react";
 
 function App() {
+  const [login, setlogin] = useState(false);
+
+  const logHandler = () => {
+    setlogin(!login);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <StyledMain>
+        <Navbar login={login} logout={logHandler} />
+        {!login && <Form login={logHandler} />}
+        {login && <Header />}
+      </StyledMain>
+    </>
   );
 }
 
