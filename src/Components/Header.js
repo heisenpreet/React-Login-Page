@@ -4,7 +4,7 @@ const Header = (props) => {
   return (
     <StyledHeader>
       <h1>Welcome</h1>
-      <h3>Name</h3>
+      <h3>{props.email}</h3>
     </StyledHeader>
   );
 };

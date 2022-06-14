@@ -1,26 +1,34 @@
 import StyledForm from "../UIComponents/StyledForm";
-import { Ref, useRef, useState } from "react";
+import { useRef, useState, useReducer } from "react";
 import emailValidationCheck from "../helperFx/emailRegex";
 
 const Form = (props) => {
   const passwordRef = useRef();
   const emailRef = useRef();
   const [btnBlur, setbtnBlur] = useState("40%");
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    props.login();
+
+    props.login(passwordRef.current.value, emailRef.current.value);
     e.target.reset();
   };
 
+  let debounce = false;
   const formChangeHandler = (e) => {
-    if (
-      !emailValidationCheck(emailRef.current.value) ||
-      passwordRef.current.value.length < 8
-    ) {
-      setbtnBlur("40%");
-      return;
+    if (debounce) {
+      clearTimeout(debounce);
     }
-    setbtnBlur("100%");
+    debounce = setTimeout(() => {
+      if (
+        !emailValidationCheck(emailRef.current.value) ||
+        passwordRef.current.value.length < 8
+      ) {
+        setbtnBlur("40%");
+        return;
+      }
+      setbtnBlur("100%");
+    }, 500);
   };
 
   return (
