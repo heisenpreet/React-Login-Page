@@ -5,12 +5,13 @@ import emailValidationCheck from "../helperFx/emailRegex";
 const Form = (props) => {
   const passwordRef = useRef();
   const emailRef = useRef();
+  const nameRef = useRef();
   const [btnBlur, setbtnBlur] = useState("40%");
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
-    props.login(passwordRef.current.value, emailRef.current.value);
+    props.login(passwordRef.current.value, nameRef.current.value);
     e.target.reset();
   };
 
@@ -37,6 +38,7 @@ const Form = (props) => {
       onChange={formChangeHandler}
       opacity={btnBlur}
     >
+      <input type={"text"} required placeholder="Name" ref={nameRef}></input>
       <input
         type={"email"}
         required

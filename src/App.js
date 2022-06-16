@@ -3,30 +3,44 @@ import StyledMain from "./UIComponents/StyledMain";
 import Navbar from "./Components/navbar";
 import Form from "./Components/Form";
 import Header from "./Components/Header";
-import { useState, useEffect, useReducer } from "react";
+import { useEffect, useReducer } from "react";
+import Popover from "./Components/Popover";
 
-const authentication = (state, action) => {
-  if (action.type === "LOGIN" && action.password === "1234567899") {
-    return { val: action.email, auth: true };
+const authentication = (prevstate, action) => {
+  if (
+    action.type === "LOGIN" &&
+    (action.passkey === "USER" || action.password === "1234567899")
+  ) {
+    if (action.password) {
+      localStorage.setItem("isLoggedIn", "USER");
+    }
+    return { val: action.email, auth: true, popover: false };
   }
-  return { auth: false };
+  if (action.type === "LOGIN" && action.password !== "1234567899") {
+    return { auth: false, popover: true };
+  }
+  if (action.type === "LOGOUT") {
+    return { auth: false, popover: false };
+  }
 };
 
 function App() {
-  // const [login, setlogin] = useState(false);
   const [login, dispatchLogin] = useReducer(authentication, {
     val: "",
     auth: false,
+    popover: false,
   });
   useEffect(() => {
-    if (localStorage.getItem("isLoggedIn") === "1") {
-      // setlogin(true);
+    if (localStorage.getItem("isLoggedIn") === "USER") {
+      dispatchLogin({
+        type: "LOGIN",
+        passkey: localStorage.getItem("isLoggedIn"),
+      });
     }
   }, []);
 
   const loginHandler = (password, email) => {
     dispatchLogin({ type: "LOGIN", email: email, password: password });
-    localStorage.setItem("isLoggedIn", "1");
   };
   const logOutHandler = () => {
     dispatchLogin({ type: "LOGOUT" });
@@ -39,6 +53,7 @@ function App() {
         <Navbar login={login.auth} logout={logOutHandler} />
         {!login.auth && <Form login={loginHandler} />}
         {login.auth && <Header email={login.val} />}
+        {<Popover active={login.popover} reload={logOutHandler} />}
       </StyledMain>
     </>
   );
