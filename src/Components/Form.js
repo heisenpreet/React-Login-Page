@@ -1,6 +1,8 @@
 import StyledForm from "../UIComponents/StyledForm";
-import { useRef, useState, useReducer } from "react";
+import { useRef, useState, useContext } from "react";
 import emailValidationCheck from "../helperFx/emailRegex";
+
+import Username from "../store/auth-user";
 
 const Form = (props) => {
   const passwordRef = useRef();
@@ -8,10 +10,12 @@ const Form = (props) => {
   const nameRef = useRef();
   const [btnBlur, setbtnBlur] = useState("40%");
 
+  const username = useContext(Username);
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
     props.login(passwordRef.current.value, nameRef.current.value);
+    username.setusername(nameRef.current.value);
     e.target.reset();
   };
 

@@ -1,15 +1,15 @@
 import styled from "styled-components";
 import tw from "twin.macro";
 
-const StyledForm = styled.form.attrs((props) => ({}))`
+const StyledForm = styled.form`
   & {
     margin: 4rem auto;
     grid-column: 1/-1;
     grid-row: 2/-1;
     width: 100%;
-    ${tw`bg-white text-center rounded py-10 px-7  max-w-xs  shadow-2xl  `}
 
-    input {
+    background-color: ${({ theme }) => theme.colors.form};
+    ${tw` text-center rounded py-10 px-7  max-w-xs  shadow-2xl  `} input {
       ${tw`border-gray-300 mb-4 w-full border-solid border rounded py-2 px-4`}
     }
     button {

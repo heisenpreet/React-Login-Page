@@ -1,14 +1,15 @@
 import styled from "styled-components";
 import tw from "twin.macro";
 
-const StyledHeader = styled.header.attrs((props) => ({}))`
+const StyledHeader = styled.header`
   & {
     margin: 0 auto;
     grid-column: 1/-1;
     grid-row: 2/-1;
     width: 100%;
+    background-color: ${({ theme }) => theme.colors.header};
 
-    ${tw`text-center bg-gray-50 text-gray-800 py-20 px-6`}
+    ${tw`text-center  text-gray-800 py-20 px-6`}
 
     h1 {
       ${tw`text-5xl font-bold mt-0 mb-6`}

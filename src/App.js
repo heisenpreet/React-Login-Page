@@ -1,10 +1,11 @@
-import "./App.css";
 import StyledMain from "./UIComponents/StyledMain";
 import Navbar from "./Components/navbar";
 import Form from "./Components/Form";
 import Header from "./Components/Header";
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import Popover from "./Components/Popover";
+import { ThemeProvider } from "styled-components";
+import GlobalStyles from "./UIComponents/GlobalStyles";
 
 const authentication = (prevstate, action) => {
   if (
@@ -21,6 +22,9 @@ const authentication = (prevstate, action) => {
   }
   if (action.type === "LOGOUT") {
     return { auth: false, popover: false };
+  }
+  if (action.type === "RELOAD") {
+    return { ...prevstate, popover: false };
   }
 };
 
@@ -46,16 +50,29 @@ function App() {
     dispatchLogin({ type: "LOGOUT" });
     localStorage.removeItem("isLoggedIn");
   };
+  const reloadHandler = () => {
+    dispatchLogin({ type: "RELOAD" });
+  };
+  const theme = {
+    colors: {
+      header: "lavender",
+      form: "#ffffff",
+    },
+  };
 
   return (
-    <>
-      <StyledMain>
-        <Navbar login={login.auth} logout={logOutHandler} />
-        {!login.auth && <Form login={loginHandler} />}
-        {login.auth && <Header email={login.val} />}
-        {<Popover active={login.popover} reload={logOutHandler} />}
-      </StyledMain>
-    </>
+    <ThemeProvider theme={theme}>
+      <>
+        <GlobalStyles />
+
+        <StyledMain>
+          <Navbar login={login.auth} logout={logOutHandler} />
+          {!login.auth && <Form login={loginHandler} />}
+          {login.auth && <Header />}
+          {<Popover active={login.popover} reload={reloadHandler} />}
+        </StyledMain>
+      </>
+    </ThemeProvider>
   );
 }
 
